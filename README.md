@@ -83,6 +83,9 @@ export const AI_CONFIG = {
 * Users will clone the source code repository.
 * Dependencies are managed via `npm install`.
 * AI API keys and environment-specific settings are handled through environment variables (`.env`).
+  1. Copy `.env.example` to `.env` and set `VITE_AI_API_KEY`.
+  2. Install dependencies with `npm install`.
+  3. Start the dev server using `npm run dev`.
 
 ## UI Layout
 
