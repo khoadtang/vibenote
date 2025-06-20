@@ -1,0 +1,23 @@
+{
+  "name": "vibenote",
+  "version": "1.0.0",
+  "description": "This project implements a web-based AI-powered task extraction tool. It converts Markdown-formatted, free-form user inputs into structured, actionable tasks. Tasks are automatically grouped by projects if specified via hashtags (e.g., `#project-name`).",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.5.2",
+    "vite": "^6.3.5"
+  }
+}

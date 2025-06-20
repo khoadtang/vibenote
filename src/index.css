@@ -1,0 +1,3 @@
+body { margin: 0; font-family: sans-serif; }
+.markdown-input { display: flex; flex-direction: column; }
+.markdown-input textarea { flex: 1; margin-bottom: 0.5rem; }
