@@ -1,6 +1,10 @@
 import { AI_CONFIG } from '../config/aiConfig.js';
 
 export async function generateTasks(markdown) {
+  if (!AI_CONFIG.apiKey || !AI_CONFIG.model || !AI_CONFIG.endpoint) {
+    // If AI isn't configured, return the raw markdown so it can be parsed manually
+    return markdown;
+  }
   const messages = [
     { role: 'system', content: 'Extract concise tasks grouped by hashtags.' },
     { role: 'user', content: markdown }
