@@ -67,8 +67,11 @@ export default function App() {
   const handleToggle = async (project, idx) => {
     setTasks(prev => {
       const updated = { ...prev };
-      const task = { ...updated[project][idx] };
-      task.done = !task.done;
+      const current = updated[project][idx];
+      const task =
+        typeof current === 'object' && current !== null
+          ? { ...current, done: !current.done }
+          : { text: String(current), done: true };
       updated[project][idx] = task;
       storage.updateTask(project, idx, task);
       return updated;

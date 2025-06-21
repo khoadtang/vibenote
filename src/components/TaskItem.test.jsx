@@ -32,4 +32,14 @@ describe('TaskItem inline editing', () => {
     expect(onUpdate).not.toHaveBeenCalled();
     getByText('cancel');
   });
+
+  it('toggles completion', () => {
+    const onToggle = vi.fn();
+    const { getByRole } = render(
+      <TaskItem task={{ text: 'done?', done: false }} onToggle={onToggle} onDelete={() => {}} onUpdate={() => {}} />
+    );
+    const checkbox = getByRole('checkbox');
+    fireEvent.click(checkbox);
+    expect(onToggle).toHaveBeenCalled();
+  });
 });
