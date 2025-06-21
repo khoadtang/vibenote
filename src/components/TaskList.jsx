@@ -5,7 +5,7 @@ export default function TaskList({ tasksByProject }) {
   return (
     <div className="task-list">
       {Object.entries(tasksByProject).map(([project, tasks]) => (
-        <div key={project} style={{ marginBottom: '1rem' }}>
+        <div key={project} className="project-section">
           <h3>Project: {project}</h3>
           <ul>
             {tasks.map((task, idx) => (
