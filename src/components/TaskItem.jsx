@@ -23,7 +23,7 @@ export default function TaskItem({ task, onToggle, onDelete, onUpdate }) {
     }
   };
 
-  const taskText = task.text || task;
+  const taskText = typeof task === 'object' && task.text ? task.text : String(task);
   const isDone = task.done || false;
 
   return (
