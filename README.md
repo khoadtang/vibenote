@@ -87,6 +87,20 @@ export const AI_CONFIG = {
   2. Install dependencies with `npm install`.
   3. Start the dev server using `npm run dev`.
 
+### Manual Task Entry Without AI
+
+If no AI API key is provided, the app will not call an AI model. In this case you
+can still enter tasks directly in the Markdown area. Use clear project tags and
+task items, e.g.:
+
+```markdown
+#abc-project
+- [ ] Add API
+```
+
+Press **Generate Tasks** and the tasks will be parsed locally without any AI
+requests.
+
 ## UI Layout
 
 ```
