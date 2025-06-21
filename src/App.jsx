@@ -29,7 +29,10 @@ export default function App() {
         const merged = { ...prev };
         Object.entries(parsed).forEach(([project, projectTasks]) => {
           if (!merged[project]) merged[project] = [];
-          merged[project] = [...merged[project], ...projectTasks];
+          const uniqueTasks = projectTasks.filter(
+            task => !merged[project].includes(task)
+          );
+          merged[project] = [...merged[project], ...uniqueTasks];
         });
         return merged;
       });
