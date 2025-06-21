@@ -13,8 +13,13 @@ export class LocalStorageTaskService extends TaskStorage {
 
   async createTask(project, task) {
     if (!this.tasks[project]) this.tasks[project] = [];
-    this.tasks[project].push(task);
-    this._save();
+    const getText = t => (typeof t === 'string' ? t : t.text);
+    const text = getText(task);
+    const exists = this.tasks[project].some(t => getText(t) === text);
+    if (!exists) {
+      this.tasks[project].push(task);
+      this._save();
+    }
   }
 
   async readTasks(project) {
@@ -26,7 +31,11 @@ export class LocalStorageTaskService extends TaskStorage {
   }
 
   async updateTask(project, taskId, updatedTask) {
-    if (this.tasks[project]) {
+    if (!this.tasks[project]) return;
+    const getText = t => (typeof t === 'string' ? t : t.text);
+    const text = getText(updatedTask);
+    const exists = this.tasks[project].some((t, idx) => idx !== taskId && getText(t) === text);
+    if (!exists) {
       this.tasks[project][taskId] = updatedTask;
       this._save();
     }

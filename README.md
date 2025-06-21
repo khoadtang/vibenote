@@ -17,6 +17,7 @@ This project implements a web-based AI-powered task extraction tool. It converts
 * Generate concise, actionable tasks from whatever notes the user enters.
 * When AI is configured, free-form text is transformed into a markdown task list grouped by `#<project-name>` headings.
 * Group tasks by detected project tags, with untagged tasks grouped under a default "General" category.
+* Prevent duplicate tasks within the same project.
 
 ### CRUD Operations Abstraction
 
