@@ -7,9 +7,10 @@ export default function MarkdownTaskInput({ value, onChange, onGenerate }) {
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder="Enter markdown with tasks..."
-        style={{ width: '100%', height: '200px' }}
       />
-      <button onClick={onGenerate}>Generate Tasks</button>
+      <button className="generate-button" onClick={onGenerate}>
+        Generate Tasks
+      </button>
     </div>
   );
 }

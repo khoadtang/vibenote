@@ -34,7 +34,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div className="app-container">
       <div style={{ flex: 7, padding: '1rem' }}>
         <MarkdownTaskInput
           value={markdown}
