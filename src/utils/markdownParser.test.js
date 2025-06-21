@@ -28,4 +28,10 @@ describe('parseProjects', () => {
     const result = parseProjects(input);
     expect(result).toEqual({ proj: ['a task'], other: ['another'] });
   });
+
+  it('parses tasks prefixed with a project tag', () => {
+    const input = `#proj do this\n#other finish that`;
+    const result = parseProjects(input);
+    expect(result).toEqual({ proj: ['do this'], other: ['finish that'] });
+  });
 });
