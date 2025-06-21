@@ -5,6 +5,12 @@ export class LocalStorageTaskService extends TaskStorage {
     super();
     this.storeKey = 'vibenote-tasks';
     this.tasks = JSON.parse(localStorage.getItem(this.storeKey) || '{}');
+    // Migrate legacy string-based tasks to object format
+    Object.keys(this.tasks).forEach(project => {
+      this.tasks[project] = this.tasks[project].map(t =>
+        typeof t === 'string' ? { text: t, done: false } : t
+      );
+    });
   }
 
   _save() {
@@ -13,8 +19,10 @@ export class LocalStorageTaskService extends TaskStorage {
 
   async createTask(project, task) {
     if (!this.tasks[project]) this.tasks[project] = [];
-    this.tasks[project].push(task);
-    this._save();
+    if (!this.tasks[project].some(t => t.text === task.text)) {
+      this.tasks[project].push(task);
+      this._save();
+    }
   }
 
   async readTasks(project) {

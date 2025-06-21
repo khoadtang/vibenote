@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import TaskItem from './TaskItem.jsx';
 
-export default function TaskList({ tasksByProject }) {
+export default function TaskList({
+  tasksByProject,
+  onToggle,
+  onDelete,
+  onUpdate
+}) {
   const [collapsed, setCollapsed] = useState({});
 
   const toggle = project => {
@@ -24,7 +29,15 @@ export default function TaskList({ tasksByProject }) {
             {!isCollapsed && (
               <ul>
                 {tasks.map((task, idx) => (
-                  <TaskItem key={idx} task={task} />
+                  <TaskItem
+                    key={idx}
+                    project={project}
+                    index={idx}
+                    task={task}
+                    onToggle={onToggle}
+                    onDelete={onDelete}
+                    onUpdate={onUpdate}
+                  />
                 ))}
               </ul>
             )}

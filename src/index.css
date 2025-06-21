@@ -115,9 +115,29 @@ body {
   font-weight: 300;
 }
 
+.task-item .edit-input {
+  flex: 1;
+  font-family: inherit;
+  font-size: 0.95rem;
+  margin-right: 0.5rem;
+}
+
 .task-item .completed {
   text-decoration: line-through;
   color: #888;
+}
+
+.delete-button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  visibility: hidden;
+}
+
+.task-item:hover .delete-button {
+  visibility: visible;
 }
 
 .project-section {

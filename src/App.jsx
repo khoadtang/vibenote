@@ -29,21 +29,50 @@ export default function App() {
         const merged = { ...prev };
         Object.entries(parsed).forEach(([project, projectTasks]) => {
           if (!merged[project]) merged[project] = [];
-          const uniqueTasks = projectTasks.filter(
-            task => !merged[project].includes(task)
-          );
-          merged[project] = [...merged[project], ...uniqueTasks];
+          projectTasks.forEach(text => {
+            if (!merged[project].some(t => t.text === text)) {
+              const obj = { text, done: false };
+              merged[project].push(obj);
+              storage.createTask(project, obj);
+            }
+          });
         });
         return merged;
-      });
-
-      Object.entries(parsed).forEach(([project, projectTasks]) => {
-        projectTasks.forEach(task => storage.createTask(project, task));
       });
     } catch (err) {
       console.error(err);
       alert('Failed to generate tasks');
     }
+  };
+
+  const handleToggle = async (project, idx) => {
+    setTasks(prev => {
+      const updated = { ...prev };
+      const task = { ...updated[project][idx] };
+      task.done = !task.done;
+      updated[project][idx] = task;
+      storage.updateTask(project, idx, task);
+      return updated;
+    });
+  };
+
+  const handleDelete = async (project, idx) => {
+    setTasks(prev => {
+      const updated = { ...prev };
+      updated[project].splice(idx, 1);
+      storage.deleteTask(project, idx);
+      return updated;
+    });
+  };
+
+  const handleUpdate = async (project, idx, text) => {
+    setTasks(prev => {
+      const updated = { ...prev };
+      const task = { ...updated[project][idx], text };
+      updated[project][idx] = task;
+      storage.updateTask(project, idx, task);
+      return updated;
+    });
   };
 
   return (
@@ -56,7 +85,12 @@ export default function App() {
         />
       </div>
       <div className="tasks-panel">
-        <TaskList tasksByProject={tasks} />
+        <TaskList
+          tasksByProject={tasks}
+          onToggle={handleToggle}
+          onDelete={handleDelete}
+          onUpdate={handleUpdate}
+        />
       </div>
     </div>
   );
