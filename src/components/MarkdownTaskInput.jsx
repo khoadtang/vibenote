@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function MarkdownTaskInput({ value, onChange, onGenerate }) {
+export default function MarkdownTaskInput({ value, onChange, onGenerate, isGenerating }) {
   return (
     <div className="markdown-input">
       <textarea
@@ -9,13 +9,20 @@ export default function MarkdownTaskInput({ value, onChange, onGenerate }) {
         onKeyDown={e => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            onGenerate();
+            if (!isGenerating) {
+              onGenerate();
+            }
           }
         }}
-        placeholder="Enter markdown with tasks..."
+        placeholder="Enter markdown with tasks... (Press Enter to generate)"
+        disabled={isGenerating}
       />
-      <button className="generate-button" onClick={onGenerate}>
-        Generate Tasks
+      <button 
+        className="generate-button" 
+        onClick={onGenerate}
+        disabled={isGenerating}
+      >
+        {isGenerating ? 'Generating...' : 'Generate Tasks'}
       </button>
     </div>
   );

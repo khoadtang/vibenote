@@ -38,4 +38,11 @@ export class LocalStorageTaskService extends TaskStorage {
       this._save();
     }
   }
+
+  async deleteProject(project) {
+    if (this.tasks[project]) {
+      delete this.tasks[project];
+      this._save();
+    }
+  }
 }

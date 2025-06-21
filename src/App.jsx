@@ -10,6 +10,7 @@ const storage = new LocalStorageTaskService();
 export default function App() {
   const [markdown, setMarkdown] = useState('');
   const [tasks, setTasks] = useState({});
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     const loadStored = async () => {
@@ -20,6 +21,8 @@ export default function App() {
   }, []);
 
   const handleGenerate = async () => {
+    if (isGenerating) return; // Prevent duplicate calls
+    setIsGenerating(true);
     try {
       const aiResult = await generateTasks(markdown);
       const parsed = parseProjects(aiResult);
@@ -29,18 +32,77 @@ export default function App() {
         const merged = { ...prev };
         Object.entries(parsed).forEach(([project, projectTasks]) => {
           if (!merged[project]) merged[project] = [];
-          merged[project] = [...merged[project], ...projectTasks];
+          projectTasks.forEach(text => {
+            if (!merged[project].some(t => t.text === text)) {
+              const taskObj = { text, done: false };
+              merged[project].push(taskObj);
+              storage.createTask(project, taskObj);
+            }
+          });
         });
         return merged;
       });
 
-      Object.entries(parsed).forEach(([project, projectTasks]) => {
-        projectTasks.forEach(task => storage.createTask(project, task));
-      });
+      // Clear markdown input after generating tasks
+      setMarkdown('');
+
+      // Scroll to the last added project after state update
+      if (Object.keys(parsed).length > 0) {
+        setTimeout(() => {
+          const lastProject = Object.keys(parsed).pop();
+          const element = document.querySelector(`[data-project="${lastProject}"]`);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+      }
     } catch (err) {
       console.error(err);
       alert('Failed to generate tasks');
+    } finally {
+      setIsGenerating(false);
     }
+  };
+
+  const handleToggle = async (project, idx) => {
+    setTasks(prev => {
+      const updated = { ...prev };
+      const task = { ...updated[project][idx] };
+      task.done = !task.done;
+      updated[project][idx] = task;
+      storage.updateTask(project, idx, task);
+      return updated;
+    });
+  };
+
+  const handleDelete = async (project, idx) => {
+    setTasks(prev => {
+      const updated = { ...prev };
+      if (updated[project] && updated[project][idx]) {
+        updated[project].splice(idx, 1);
+        storage.deleteTask(project, idx);
+      }
+      return updated;
+    });
+  };
+
+  const handleUpdate = async (project, idx, text) => {
+    setTasks(prev => {
+      const updated = { ...prev };
+      const task = { ...updated[project][idx], text };
+      updated[project][idx] = task;
+      storage.updateTask(project, idx, task);
+      return updated;
+    });
+  };
+
+  const handleRemoveProject = async (project) => {
+    setTasks(prev => {
+      const updated = { ...prev };
+      delete updated[project];
+      storage.deleteProject(project);
+      return updated;
+    });
   };
 
   return (
@@ -50,10 +112,17 @@ export default function App() {
           value={markdown}
           onChange={setMarkdown}
           onGenerate={handleGenerate}
+          isGenerating={isGenerating}
         />
       </div>
       <div className="tasks-panel">
-        <TaskList tasksByProject={tasks} />
+        <TaskList
+          tasksByProject={tasks}
+          onToggle={handleToggle}
+          onDelete={handleDelete}
+          onUpdate={handleUpdate}
+          onRemoveProject={handleRemoveProject}
+        />
       </div>
     </div>
   );
