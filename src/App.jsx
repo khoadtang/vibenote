@@ -23,7 +23,17 @@ export default function App() {
     try {
       const aiResult = await generateTasks(markdown);
       const parsed = parseProjects(aiResult);
-      setTasks(parsed);
+
+      // merge new tasks with existing ones
+      setTasks(prev => {
+        const merged = { ...prev };
+        Object.entries(parsed).forEach(([project, projectTasks]) => {
+          if (!merged[project]) merged[project] = [];
+          merged[project] = [...merged[project], ...projectTasks];
+        });
+        return merged;
+      });
+
       Object.entries(parsed).forEach(([project, projectTasks]) => {
         projectTasks.forEach(task => storage.createTask(project, task));
       });
