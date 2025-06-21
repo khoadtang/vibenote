@@ -6,6 +6,12 @@ export default function MarkdownTaskInput({ value, onChange, onGenerate }) {
       <textarea
         value={value}
         onChange={e => onChange(e.target.value)}
+        onKeyDown={e => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            onGenerate();
+          }
+        }}
         placeholder="Enter markdown with tasks..."
       />
       <button className="generate-button" onClick={onGenerate}>
