@@ -3,9 +3,9 @@ export function parseProjects(markdown) {
   const projects = {};
   let currentProject = 'General';
   for (const line of lines) {
-    const projectTag = line.match(/#(\w+)/);
+    const projectTag = line.match(/^#\s*(.+)$/);
     if (projectTag) {
-      currentProject = projectTag[1];
+      currentProject = projectTag[1].trim();
       projects[currentProject] = projects[currentProject] || [];
     }
     const taskMatch = line.match(/- \[ \] (.+)/);

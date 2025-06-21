@@ -16,4 +16,10 @@ describe('parseProjects', () => {
     const result = parseProjects(input);
     expect(result).toEqual({ General: ['general task'] });
   });
+
+  it('handles hyphenated and spaced project names', () => {
+    const input = `#test project-api\n- [ ] task`;
+    const result = parseProjects(input);
+    expect(result).toEqual({ 'test project-api': ['task'] });
+  });
 });
