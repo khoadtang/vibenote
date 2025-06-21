@@ -77,7 +77,6 @@ body {
   margin-bottom: 0.25rem;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 0.25rem;
-  color: #db4c3f;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -85,10 +84,19 @@ body {
   align-items: center;
 }
 
+.project-name {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .task-count {
-  color: #666;
+  background: #f0f0f0;
+  color: #333;
   font-weight: normal;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .task-list ul {
