@@ -67,9 +67,11 @@ export default function App() {
   const handleToggle = async (project, idx) => {
     setTasks(prev => {
       const updated = { ...prev };
-      const task = { ...updated[project][idx] };
+      const newTasks = [...updated[project]]; // Create a new array for the project's tasks
+      const task = { ...newTasks[idx] };
       task.done = !task.done;
-      updated[project][idx] = task;
+      newTasks[idx] = task;
+      updated[project] = newTasks; // Assign the new array to the project
       storage.updateTask(project, idx, task);
       return updated;
     });
