@@ -20,7 +20,15 @@ export default function TaskList({ tasksByProject, onToggle, onDelete, onUpdate,
             >
               {'#' + project}
               <span className="task-count">({tasks.length})</span>
-              <button className="remove-project-btn" onClick={() => onRemoveProject(project)}>Remove</button>
+              <button
+                className="remove-project-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemoveProject(project);
+                }}
+              >
+                ×
+              </button>
             </h3>
             {!isCollapsed && (
               <ul>
