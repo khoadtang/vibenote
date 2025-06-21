@@ -35,14 +35,14 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <div style={{ flex: 7, padding: '1rem' }}>
+      <div className="input-panel">
         <MarkdownTaskInput
           value={markdown}
           onChange={setMarkdown}
           onGenerate={handleGenerate}
         />
       </div>
-      <div style={{ flex: 3, padding: '1rem', overflowY: 'auto' }}>
+      <div className="tasks-panel">
         <TaskList tasksByProject={tasks} />
       </div>
     </div>
