@@ -14,7 +14,8 @@ This project implements a web-based AI-powered task extraction tool. It converts
 ### Task Extraction & Grouping
 
 * Use configurable AI models (OpenAI GPT-4, OpenRouter API).
-* Generate concise, actionable tasks.
+* Generate concise, actionable tasks from whatever notes the user enters.
+* When AI is configured, free-form text is transformed into a markdown task list grouped by `#<project-name>` headings.
 * Group tasks by detected project tags, with untagged tasks grouped under a default "General" category.
 
 ### CRUD Operations Abstraction
@@ -86,6 +87,29 @@ export const AI_CONFIG = {
   1. Copy `.env.example` to `.env` and set `VITE_AI_API_KEY`.
   2. Install dependencies with `npm install`.
   3. Start the dev server using `npm run dev`.
+
+### AI-Powered Extraction
+
+With a valid AI configuration the input box can contain any raw notes or "stream
+of consciousness" text. Press **Generate Tasks** and the model will respond with
+a markdown list grouped by `#<project-name>` headings. Untagged items are placed
+under `#General`.
+
+Example input:
+
+```text
+Today I need to fix login for #webapp and also update the #docs about API tokens.
+```
+
+Possible AI output:
+
+```markdown
+# webapp
+- [ ] Fix login
+
+# docs
+- [ ] Update API tokens section
+```
 
 ### Manual Task Entry Without AI
 

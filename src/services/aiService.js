@@ -1,13 +1,19 @@
 import { AI_CONFIG } from '../config/aiConfig.js';
 
-export async function generateTasks(markdown) {
+// `notes` can be free-form text or markdown describing what is on the user's mind.
+// The AI will turn this into a markdown task list grouped by #project names.
+export async function generateTasks(notes) {
   if (!AI_CONFIG.apiKey || !AI_CONFIG.model || !AI_CONFIG.endpoint) {
     // If AI isn't configured, return the raw markdown so it can be parsed manually
-    return markdown;
+    return notes;
   }
   const messages = [
-    { role: 'system', content: 'Extract concise tasks grouped by hashtags.' },
-    { role: 'user', content: markdown }
+    {
+      role: 'system',
+      content:
+        'From the user notes, extract a markdown task list grouped by project name using "#<project-name>" headings. Use "#General" when no project is provided and return only the list.'
+    },
+    { role: 'user', content: notes }
   ];
 
   const response = await fetch(AI_CONFIG.endpoint, {
