@@ -11,7 +11,7 @@ describe('MarkdownTaskInput', () => {
     const { getByPlaceholderText } = render(
       <MarkdownTaskInput value="" onChange={() => {}} onGenerate={onGenerate} />
     );
-    const textarea = getByPlaceholderText('Enter markdown with tasks...');
+    const textarea = getByPlaceholderText(/Enter markdown with tasks/);
     fireEvent.keyDown(textarea, { key: 'Enter' });
     expect(onGenerate).toHaveBeenCalledTimes(1);
   });

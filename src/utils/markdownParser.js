@@ -4,8 +4,10 @@ export function parseProjects(markdown) {
   let currentProject = 'General';
 
   for (const line of lines) {
-    // Lines that begin with "# " denote a project heading
-    const headingMatch = line.match(/^#+\s+(.+)$/);
+    // Lines that begin with "#" denote a project heading. Allow names like
+    // "#proj" or "#proj name-with-hyphen" but ignore lines that look like task
+    // prefixes such as "#proj do something".
+    const headingMatch = line.match(/^#([\w-]+(?:\s+[\w-]+)?)$/);
     if (headingMatch) {
       currentProject = headingMatch[1].trim();
       projects[currentProject] = projects[currentProject] || [];

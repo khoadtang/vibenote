@@ -29,4 +29,13 @@ describe('LocalStorageTaskService', () => {
     const tasks = await service.readTasks('proj');
     expect(tasks).toEqual([]);
   });
+
+  it('persists completion status across instances', async () => {
+    await service.createTask('proj', { text: 'task 1', done: false });
+    await service.updateTask('proj', 0, { text: 'task 1', done: true });
+
+    const newService = new LocalStorageTaskService();
+    const tasks = await newService.readTasks('proj');
+    expect(tasks).toEqual([{ text: 'task 1', done: true }]);
+  });
 });
