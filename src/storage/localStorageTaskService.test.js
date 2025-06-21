@@ -29,4 +29,14 @@ describe('LocalStorageTaskService', () => {
     const tasks = await service.readTasks('proj');
     expect(tasks).toEqual([]);
   });
+
+  it('persists task completion', async () => {
+    const task = { text: 'persist', done: false };
+    await service.createTask('proj', task);
+    await service.updateTask('proj', 0, { ...task, done: true });
+
+    const newService = new LocalStorageTaskService();
+    const tasks = await newService.readTasks('proj');
+    expect(tasks[0]).toEqual({ text: 'persist', done: true });
+  });
 });

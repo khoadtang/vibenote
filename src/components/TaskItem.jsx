@@ -27,7 +27,7 @@ export default function TaskItem({ task, onToggle, onDelete, onUpdate }) {
   const isDone = task.done || false;
 
   return (
-    <li className="task-item">
+    <li className={`task-item${isDone ? ' completed' : ''}`}>
       <input
         type="checkbox"
         checked={isDone}
@@ -43,10 +43,7 @@ export default function TaskItem({ task, onToggle, onDelete, onUpdate }) {
           autoFocus
         />
       ) : (
-        <span
-          className={isDone ? 'completed' : ''}
-          onDoubleClick={handleEdit}
-        >
+        <span onDoubleClick={handleEdit}>
           {taskText}
         </span>
       )}

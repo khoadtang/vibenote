@@ -32,4 +32,12 @@ describe('TaskItem inline editing', () => {
     expect(onUpdate).not.toHaveBeenCalled();
     getByText('cancel');
   });
+
+  it('applies completed class when done', () => {
+    const { container } = render(
+      <TaskItem task={{ text: 'done task', done: true }} onToggle={() => {}} onDelete={() => {}} onUpdate={() => {}} />
+    );
+    const li = container.querySelector('li.task-item');
+    expect(li.classList.contains('completed')).toBe(true);
+  });
 });
