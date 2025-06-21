@@ -122,6 +122,12 @@ task items, e.g.:
 - [ ] Add API
 ```
 
+You can also tag projects inline, Todoist-style:
+
+```markdown
+- [ ] Add API #abc-project
+```
+
 Press **Generate Tasks** and the tasks will be parsed locally without any AI
 requests.
 

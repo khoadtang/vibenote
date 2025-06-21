@@ -22,4 +22,10 @@ describe('parseProjects', () => {
     const result = parseProjects(input);
     expect(result).toEqual({ 'test project-api': ['task'] });
   });
+
+  it('parses inline project tags like todoist', () => {
+    const input = `- [ ] a task #proj\n- [ ] another #other`;
+    const result = parseProjects(input);
+    expect(result).toEqual({ proj: ['a task'], other: ['another'] });
+  });
 });

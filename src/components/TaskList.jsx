@@ -18,7 +18,7 @@ export default function TaskList({ tasksByProject }) {
               className="project-title"
               onClick={() => toggle(project)}
             >
-              {project}
+              {'#' + project}
               <span className="task-count">({tasks.length})</span>
             </h3>
             {!isCollapsed && (
