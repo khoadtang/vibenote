@@ -3,17 +3,24 @@ export function parseProjects(markdown) {
   const projects = {};
   let currentProject = 'General';
 
-  for (const line of lines) {
-    // Lines that begin with "# " denote a project heading
-    const headingMatch = line.match(/^#+\s+(.+)$/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Detect project headings. Allow "#proj" or "# Project" with optional
+    // spaces. We treat it as a heading only when the following line is a task
+    // item ("- [ ]"), otherwise it's interpreted as a prefix-style task.
+    const headingMatch = line.trim().match(/^#([^\s].*)$/);
     if (headingMatch) {
-      currentProject = headingMatch[1].trim();
-      projects[currentProject] = projects[currentProject] || [];
-      continue;
+      const nextLine = (lines[i + 1] || '').trim();
+      if (nextLine.startsWith('- [ ]')) {
+        currentProject = headingMatch[1].trim();
+        projects[currentProject] = projects[currentProject] || [];
+        continue;
+      }
     }
 
     // Allow Todoist-style project prefix, e.g. "#proj Do something"
-    const prefixTag = line.match(/^#([\w-]+)\s+(.+)/);
+    const prefixTag = line.trim().match(/^#([\w-]+)\s+(.+)/);
     if (prefixTag) {
       const project = prefixTag[1];
       let text = prefixTag[2].trim();
