@@ -81,7 +81,8 @@ export default function App() {
     setTasks(prev => {
       const updated = { ...prev };
       if (updated[project] && updated[project][idx]) {
-        updated[project].splice(idx, 1);
+        const newTasks = updated[project].filter((_, i) => i !== idx);
+        updated[project] = newTasks;
         storage.deleteTask(project, idx);
       }
       return updated;
@@ -91,9 +92,13 @@ export default function App() {
   const handleUpdate = async (project, idx, text) => {
     setTasks(prev => {
       const updated = { ...prev };
-      const task = { ...updated[project][idx], text };
-      updated[project][idx] = task;
-      storage.updateTask(project, idx, task);
+      if (updated[project] && updated[project][idx]) {
+        const newTasks = [...updated[project]];
+        const task = { ...newTasks[idx], text };
+        newTasks[idx] = task;
+        updated[project] = newTasks;
+        storage.updateTask(project, idx, task);
+      }
       return updated;
     });
   };
