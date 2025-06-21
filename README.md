@@ -125,6 +125,12 @@ task items, e.g.:
 Press **Generate Tasks** and the tasks will be parsed locally without any AI
 requests.
 
+### Task List UI
+
+* Tasks are grouped by project headings.
+* Each project section can be collapsed by clicking its title.
+* The number of tasks for a project is shown next to the heading.
+
 ## UI Layout
 
 ```
