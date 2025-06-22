@@ -397,6 +397,41 @@ VibeNote is a task management application that uses AI to extract tasks from mar
 4. Tasks are parsed and stored.
 5. UI updates to display tasks.
 
+## Flow Diagram
+
+### Application Data Flow
+```mermaid
+graph TD
+    A[MarkdownTaskInput] -->|User Input| B[App]
+    B -->|Generate Tasks| C[aiService]
+    C -->|AI Response| D[markdownParser]
+    D -->|Parsed Tasks| B
+    B -->|Update State| E[TaskList]
+    E -->|Render Tasks| F[TaskItem]
+    F -->|User Interaction| B
+    B -->|Persist State| G[LocalStorageTaskService]
+```
+
+### Task Lifecycle
+```mermaid
+graph TD
+    A[Create Task] --> B[Read Task]
+    B --> C[Update Task]
+    C --> D[Delete Task]
+    D --> E[Persist Changes]
+    E --> F[LocalStorage]
+```
+
+### Project Management
+```mermaid
+graph TD
+    A[Add Project] --> B[Remove Project]
+    B --> C[Mark All Completed]
+    C --> D[Collapse/Expand]
+```
+
+These diagrams illustrate the flow of data and interactions within the VibeNote application, including task lifecycle, project management, and overall application data flow.
+
 ## Development
 
 ### Setup
