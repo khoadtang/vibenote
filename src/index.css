@@ -24,7 +24,7 @@ body {
 }
 
 .input-panel {
-  flex: 7;
+  flex: 8;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@ body {
 }
 
 .tasks-panel {
-  flex: 3;
+  flex: 2;
   padding: 1rem;
   overflow-y: auto;
   display: flex;
