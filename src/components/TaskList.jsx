@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TaskItem from './TaskItem.jsx';
+import { getProjectColor } from '../utils/colorUtils.js';
 
 export default function TaskList({ tasksByProject, onToggle, onDelete, onUpdate, onRemoveProject }) {
   const [collapsed, setCollapsed] = useState({});
@@ -16,10 +17,13 @@ export default function TaskList({ tasksByProject, onToggle, onDelete, onUpdate,
           <div key={project} className="project-section" data-project={project}>
             <h3
               className="project-title"
+              style={{ color: getProjectColor(project) }}
               onClick={() => toggle(project)}
             >
-              {'#' + project}
-              <span className="task-count">({tasks.length})</span>
+              <span className="project-name">
+                {'#' + project}
+                <span className="task-count">{tasks.length}</span>
+              </span>
               <button
                 className="remove-project-btn"
                 onClick={(e) => {
