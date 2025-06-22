@@ -17,12 +17,12 @@ export default function MarkdownTaskInput({ value, onChange, onGenerate, isGener
         placeholder="Enter markdown with tasks... (Press Enter to generate)"
         disabled={isGenerating}
       />
-      <button 
-        className="generate-button" 
+      <button
+        className="generate-button"
         onClick={onGenerate}
         disabled={isGenerating}
       >
-        {isGenerating ? 'Generating...' : 'Generate Tasks'}
+        {isGenerating ? 'Generating...' : 'Add Note'}
       </button>
     </div>
   );
