@@ -16,7 +16,60 @@ export async function generateTasks(notes) {
     {
       role: 'system',
       content:
-        'From the user notes, extract a markdown task list grouped by project name using "#<project-name>" headings. Use "#General" when no project is provided and return only the list.'
+        `You are an expert project-assistant AI.
+
+INPUT NOTE (Markdown, may contain one or many "#project" tags):
+---
+{user_note}
+---
+
+**Your task**
+You're a senior technical architecture, so you need to think my note and extract the proper tasks 
+to solve problems/issues
+
+1. Read the note line-by-line.
+2. Identify every clear, actionable piece of work (e.g., "fix login", "update docs", "test API").
+3. Deduce the project for each task:
+   • If the line (or a preceding heading) contains "#tag", use that tag (dont keep the "#").
+   • If no tag is present, assign the task to "General".
+4. Make each task concise and imperative, suitable for a to-do list style.
+5. Remove duplicates within the same project (case-insensitive match on the full task text).
+6. Ensure hashtags are not duplicated or repeated unnecessarily.
+
+
+**Output format**
+
+Return **only** a valid JSON object—no prose, no markdown formatting, no #(hashtag) for each project name no code blocks—structured like:
+{
+  "projectA": [
+    "fix login",
+    "update docs"
+  ],
+  "anotherProject": [
+    "test API",
+    "write tests"
+  ],
+  "General": [
+    "buy groceries",
+    "handle Kafka connection failure",
+    "implement pod health checks"
+  ]
+}
+
+**Important**
+- Do not include any additional text, markdown, or formatting.
+- Incorrect output examples:
+  \`\`\`json
+  {
+    "#projectA": ["fix login"]
+  }
+  \`\`\`
+- Correct output example:
+  {
+    "#projectA": ["fix login"]
+  }
+
+Ensure the output is plain JSON without any wrapping or formatting.`
     },
     { role: 'user', content: notes }
   ];
@@ -43,5 +96,5 @@ export async function generateTasks(notes) {
 
   const data = await response.json();
   console.log('AI response data:', data);
-  return data.choices?.[0]?.message?.content || '';
+  return data;
 }

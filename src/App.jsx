@@ -25,7 +25,54 @@ export default function App() {
     setIsGenerating(true);
     try {
       const aiResult = await generateTasks(markdown);
-      const parsed = parseProjects(aiResult);
+
+      // Enhanced validation of AI response structure
+      if (!aiResult || typeof aiResult !== 'object') {
+        console.error('AI response is not an object:', aiResult);
+        throw new Error('Invalid AI response format');
+      }
+
+      const { choices } = aiResult;
+      if (!Array.isArray(choices) || choices.length === 0) {
+        console.error('AI response choices are invalid:', choices);
+        throw new Error('Invalid AI response format');
+      }
+
+      const { message } = choices[0];
+      if (!message || typeof message !== 'object' || !message.content) {
+        console.error('AI response message is invalid:', message);
+        throw new Error('Invalid AI response format');
+      }
+
+      // Ensure robust parsing of AI response
+      const rawContent = message.content;
+      console.log('Raw AI content:', rawContent);
+
+      // Handle cases where content is wrapped in markdown code blocks
+      let cleanedContent;
+      try {
+        cleanedContent = rawContent.replace(/```json|```/g, '').trim();
+        console.log('Cleaned AI content:', cleanedContent);
+      } catch (err) {
+        console.error('Error cleaning AI content:', err);
+        throw new Error('Failed to clean AI response content');
+      }
+
+      // Additional fallback for unexpected cases
+      if (!cleanedContent.startsWith('{') || !cleanedContent.endsWith('}')) {
+        console.warn('Cleaned content does not look like valid JSON, attempting fallback:', cleanedContent);
+        cleanedContent = cleanedContent.replace(/[^\{]*\{/, '{').replace(/\}[^\}]*$/, '}');
+        console.log('Fallback cleaned content:', cleanedContent);
+      }
+
+      let parsed;
+      try {
+        parsed = JSON.parse(cleanedContent);
+        console.log('Parsed AI JSON:', parsed);
+      } catch (err) {
+        console.error('Error parsing AI JSON:', err);
+        throw new Error('Failed to parse AI response content');
+      }
 
       // merge new tasks with existing ones
       setTasks(prev => {
@@ -57,7 +104,7 @@ export default function App() {
         }, 100);
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error in handleGenerate:', err);
       alert('Failed to generate tasks');
     } finally {
       setIsGenerating(false);
