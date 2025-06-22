@@ -18,14 +18,13 @@ body {
 
 .markdown-input {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 0.5rem;
 }
 
-@media (max-width: 639px) {
-  .markdown-input {
-    flex-direction: column;
+@media (min-width: 640px) {
+  .generate-button {
+    align-self: flex-end;
   }
 }
 
@@ -74,7 +73,6 @@ body {
   cursor: pointer;
   font-weight: 600;
   align-self: flex-start;
-  margin-left: auto;
 }
 
 .generate-button:hover {
