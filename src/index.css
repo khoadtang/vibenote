@@ -28,6 +28,12 @@ body {
   }
 }
 
+@media (max-width: 639px) {
+  .generate-button {
+    width: 100%;
+  }
+}
+
 .input-panel {
   flex: 7;
   padding: 1rem;
