@@ -20,6 +20,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .input-panel {
@@ -66,11 +67,18 @@ body {
   border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
-  align-self: flex-start;
+  align-self: flex-end;
 }
 
 .generate-button:hover {
   background: #c1342b;
+}
+
+@media (max-width: 639px) {
+  .generate-button {
+    width: 100%;
+    align-self: center;
+  }
 }
 
 .project-title {
