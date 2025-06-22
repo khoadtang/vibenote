@@ -13,7 +13,25 @@ export class LocalStorageTaskService extends TaskStorage {
 
   async createTask(project, task) {
     if (!this.tasks[project]) this.tasks[project] = [];
+
+    // Check for duplicates
+    const isDuplicate = this.tasks[project].some(existingTask => existingTask.id === task.id);
+    if (isDuplicate) return; // Skip adding duplicate tasks
+
     this.tasks[project].push(task);
+    this._save();
+  }
+
+  async createTasks(project, tasks) {
+    if (!this.tasks[project]) this.tasks[project] = [];
+
+    tasks.forEach(task => {
+      const isDuplicate = this.tasks[project].some(existingTask => existingTask.text === task.text);
+      if (!isDuplicate) {
+        this.tasks[project].push(task);
+      }
+    });
+
     this._save();
   }
 

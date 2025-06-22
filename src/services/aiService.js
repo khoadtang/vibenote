@@ -49,10 +49,8 @@ Return **only** a valid JSON object—no prose, no markdown formatting, no #(has
     "test API",
     "write tests"
   ],
-  "General": [
+  "general": [
     "buy groceries",
-    "handle Kafka connection failure",
-    "implement pod health checks"
   ]
 }
 

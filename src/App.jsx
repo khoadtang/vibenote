@@ -79,13 +79,20 @@ export default function App() {
         const merged = { ...prev };
         Object.entries(parsed).forEach(([project, projectTasks]) => {
           if (!merged[project]) merged[project] = [];
+
+          const newTasks = [];
           projectTasks.forEach(text => {
             if (!merged[project].some(t => t.text === text)) {
               const taskObj = { text, done: false };
               merged[project].push(taskObj);
-              storage.createTask(project, taskObj);
+              newTasks.push(taskObj);
             }
           });
+
+          // Batch-create tasks for the project
+          if (newTasks.length > 0) {
+            storage.createTasks(project, newTasks);
+          }
         });
         return merged;
       });
